@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, viewport-fit=cover">
+	<link rel="stylesheet" href="src/style/style.css">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet"> 
+	<title>Generate Password</title>
+</head>
+<body>
+	<div class="wrapper">
+		<h1>Generate Password</h1>
+		<div class="wrapper__box">
+			<div id="copy-but"><span id="myTooltip" class="tooltiptext">Copy</span>Copy this!</div>
+			<div class="box-pas" id="box-pas"><p id="box-pass__pass"></p>
+			</div>
+			
+		</div>
+		<p class="pas-leng">Password lenght: <span id="lengh">/span></p>
+		<input type="range" id="r1" min="5" max="27" value="20">
+		<button id="gen">Generate!</button>
+	</div>
+	<script>
+		let butGen = document.getElementById('gen');
+		let boxPas = document.getElementById('box-pas');
+		let copy = document.getElementById('copy-but');
+		let inputLengh = document.getElementById('r1');
+		let spanLenght = document.getElementById('lengh');
+		let pass = document.getElementById('box-pass__pass');
+		let words = '0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM#$%^&@';
+		spanLenght.innerHTML = inputLengh.value;
+
+		inputLengh.oninput = function() {
+			spanLenght.innerHTML = inputLengh.value;
+		}
+
+		butGen.addEventListener('click',function () {
+			pass.innerHTML = '';
+			document.getElementById('myTooltip').innerHTML = 'Copy pass'
+			let passResult = '';
+			for(let i = 0;i< inputLengh.value;i++){
+				let a = Math.random() * words.length;
+				a = Math.ceil(a);
+				passResult += words[a - 1]
+			}
+			pass.innerHTML = passResult; 
+
+			if (pass.innerHTML != '') {
+				copy.style.right = '-50px';
+				
+			}
+		})
+
+		copy.addEventListener('click',() => {
+		  let range = document.createRange();
+		  range.selectNode(boxPas); 
+		  let selection = document.getSelection();
+		  try { 
+			selection.removeAllRanges();
+			selection.addRange(range);
+			document.execCommand('copy')
+		    document.getElementById('myTooltip').innerHTML = 'Copied'
+		  } catch(err) { 
+		    console.log('Can`t copy, boss'); 
+		  } 
+		  window.getSelection().removeAllRanges();
+		})
+	</script>
+</body>
+</html>
